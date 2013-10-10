@@ -31,7 +31,7 @@ def send_events():
 quit = False
 
 def button_pressed(event):
-    broadcast('You pressed button %s.' % event.pin_num)
+    broadcast('CACA You pressed button %s.' % event.pin_num)
     print("Flag:     ", bin(event.interrupt_flag))
     print("Capture:  ", bin(event.interrupt_capture))
     print("Pin num:  ", event.pin_num)
@@ -65,16 +65,15 @@ if __name__ == '__main__':
     #t = threading.Thread(target=send_events)
     #t.daemon = True
     #t.start()
-    
+
     # Start listening for events.  This spawns a new thread.
     listener.activate()
-
     print "Server active: http://localhost:5000/"
 
-    try:    
+    try:
 	IOLoop.instance().start()
     except:
-        print "Except!"	
-    
+        print "Except!"
+
     listener.deactivate()
     pifacedigitalio.init()

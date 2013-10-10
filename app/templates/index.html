@@ -18,10 +18,18 @@
                     $("p#log").html(message.output);
                 };
 
+                ws.onclose = function (evt) {
+                    if (!evt.wasClean && evt.code == 1006) {
+                    setTimeout(function () { location.reload(true); }, 5 * 1000);
+                    } else {
+                      console.dir(evt);
+                    }
+                };
+
                 // Bind send button to websocket
                 var $send = $("button#send")
                   , $say = $("input#say");
-                
+
                 $send.live("click", function() {
                     ws.send(JSON.stringify({'text': $say.val()}));
                 });
