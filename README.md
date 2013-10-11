@@ -1,5 +1,7 @@
 # Pumpkin Quizz
 
+For Nakina Systems Pumpkin Carving Contest! https://www.youtube.com/watch?v=z-0BPkHR6m8
+
 ### State
 
 In Development! - Not ready for Halloween Yet!
