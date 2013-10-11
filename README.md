@@ -35,3 +35,13 @@ Flask + Tornado + Websocket
 ### Start Server
     workon pump-quizz
     python server.py
+    
+### Awesome git post-receive script
+    #!/bin/sh
+
+    PROJECT_DIR=/home/pi/projects/pump-quizz
+
+    GIT_WORK_TREE=$PROJECT_DIR git checkout -f
+
+    chmod u+x $PROJECT_DIR/restartServer.sh
+    $PROJECT_DIR/restartServer.sh $PROJECT_DIR > /tmp/pump-quizz-git.log 2>&2
