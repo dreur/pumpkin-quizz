@@ -1,5 +1,10 @@
 # Pumpkin Quizz
 
+### State
+
+    In Development!
+    Not ready for Halloween Yet!
+
 ### Tech
 
 Flask + Tornado + Websocket
