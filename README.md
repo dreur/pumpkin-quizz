@@ -7,7 +7,9 @@ In Development! - Not ready for Halloween Yet!
 ### Tech
 
 Hardware: Raspberry PI Model B + PI Face
+
 Components:
+
 Software: Flask + Tornado + Websocket
 
 ### Raspberry PI Setup
