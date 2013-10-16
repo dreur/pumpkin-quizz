@@ -1,3 +1,7 @@
+
+# For Pumpkin Quizz
+server.pid
+
 *.py[cod]
 
 # C extensions
@@ -33,3 +37,4 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
