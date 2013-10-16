@@ -1,79 +1,49 @@
 #!/usr/bin/env python
 # coding: utf-8
-from time import sleep
-import datetime
-import threading
-import pifacedigitalio
-import pifacecommon.core
-import pifacecommon.interrupts
+
 import os
 from tornado.wsgi import WSGIContainer
-from tornado.web import Application, FallbackHandler
+from tornado.web import Application, FallbackHandler, StaticFileHandler
 from tornado.ioloop import IOLoop
 import anyjson as json
-from app.websocket import WSHandler
 from app import app
+from app.raspberrypi import RaspberryPI
+from app.websocket import WSHandler
+
+if RaspberryPI().on_pi:
+    print 'Deployed on a Raspberry PI & PIFace'
+
 
 def broadcast(msg):
-  for clientid,client in WSHandler.WSCLIENTS.items():
-    client.write_message(json.dumps({'output':msg}))
-    pifacedigital = pifacedigitalio.PiFaceDigital()
-    pifacedigital.leds[7].toggle()
+    for clientid, client in WSHandler.WSCLIENTS.items():
+        client.write_message(json.dumps({'output': msg}))
+        RaspberryPI().toggle_led(7)
 
-def send_events():
-  while True:
-    for clientid,client in WSHandler.WSCLIENTS.items():
-      datestr = unicode(datetime.datetime.now().replace(microsecond=0))
-      client.write_message(json.dumps({'output':datestr}))
-    sleep(1)
-
-
-quit = False
 
 def button_pressed(event):
-    broadcast('CACA You pressed button %s.' % event.pin_num)
-    print("Flag:     ", bin(event.interrupt_flag))
-    print("Capture:  ", bin(event.interrupt_capture))
-    print("Pin num:  ", event.pin_num)
-    print("Direction:", event.direction)
-
-pifacedigitalio.init()
-pifacecommon.core.init()
-
-# GPIOB is the input ports, including the four buttons.
-port = pifacecommon.core.GPIOB
-
-listener = pifacecommon.interrupts.PortEventListener(port)
-
-# set up listeners for all buttons
-listener.register(0, pifacecommon.interrupts.IODIR_ON, button_pressed)
-listener.register(1, pifacecommon.interrupts.IODIR_ON, button_pressed)
-listener.register(2, pifacecommon.interrupts.IODIR_ON, button_pressed)
-listener.register(3, pifacecommon.interrupts.IODIR_ON, button_pressed)
-
+    broadcast('You pressed button %s.' % event.pin_num)
+    print("Flag:      ", bin(event.interrupt_flag))
+    print("Capture:   ", bin(event.interrupt_capture))
+    print("Pin num:   ", event.pin_num)
+    print("Direction: ", event.direction)
 
 if __name__ == '__main__':
     wsgi_app = WSGIContainer(app)
 
     application = Application([
         (r'/websocket', WSHandler),
+        (r'/static/(.*)', StaticFileHandler, {'path': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'static')}),
         (r'.*', FallbackHandler, dict(fallback=wsgi_app))
     ])
 
-    application.listen(5000)
+    application.listen(8080)
 
-    #t = threading.Thread(target=send_events)
-    #t.daemon = True
-    #t.start()
-
-    # Start listening for events.  This spawns a new thread.
-    listener.activate()
-    print "Server active: http://localhost:5000/"
+    RaspberryPI().activate()
+    print "Server active: http://localhost:8080/"
 
     try:
-	IOLoop.instance().start()
+        IOLoop.instance().start()
     except:
         print "Except!"
 
-    listener.deactivate()
-    pifacedigitalio.init()
+    RaspberryPI().shutdown()
