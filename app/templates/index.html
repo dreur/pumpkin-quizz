@@ -23,15 +23,8 @@
   </head>
 
   <body>
-    <div class="container">
-      <div id="pump-quizz">
-      </div>
-      <div class="row">
-        <p id="log"></p>
-        <input id="say" type="text">
-        <button id="send" type="button">Send!</button>
-      </div>
-    </div> <!-- /container -->
+    <div class="container" id="pump-quizz">
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -42,8 +35,15 @@
     <script src="static/js/backbone.js"></script>
     <script src="static/js/application.js"></script>
 
+    <script type="text/template" id="startQuizz-template">
+      <h1 class="creepy">Pumpkin Quizz!</h1>
+
+      <div class="row">
+        <div class=".col-md-6 .col-md-offset-3"><a id="startQuizzButton">Press (A) to Start Quizz!</a></div>
+      </div>
+    </script>
     <script type="text/template" id="question-template">
-      <h1><%= question %></h1>
+      <h1 class="creepy"><%= question %></h1>
 
       <div class="row">
         <% _.each(_.shuffle(choices), function(choice) { %>
