@@ -1,1 +1,25 @@
- 
+@font-face {
+  font-family: press-start;
+  src: url(/static/fonts/PressStart2P-Regular.ttf);
+}
+
+@font-face {
+  font-family: creepster;
+  src: url(/static/fonts/Creepster-Regular.ttf);
+}
+
+body {
+  font-family: creepster;
+}
+
+.nintendo {
+  font-family: press-start;
+}
+
+.creepy {
+  font-family: creepster;
+}
+
+.choice {
+  font-size: 1.5em;
+}

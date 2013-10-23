@@ -1,35 +1,58 @@
 $(function($){
 
-function playSound() {
-  var snd = new Audio("static/sounds/wrong-answer-1.wav"); // buffers automatically when created
+var sounds = {};
+_.each([
+    { name: "evil_laugh", url:"/static/sounds/dark-laugh.wav" },
+    { name: "scary", url:"/static/sounds/scary.wav" }
+  ], function(sound) {
+    // preloading
+    sounds[sound.name] = new Audio(sound.url);
+  });
+
+function playSound(name, volume=1) {
+  console.log("Playing sound: " + name);
+  var snd = sounds[name];
+  snd.volume = volume;
   snd.play();
 }
-
-var Util = {
-  newChoice: function(choice, isAnswer=false) {
-    return {text: choice, is_answer: isAnswer};
-  }
-};
 
 var Question = Backbone.Model.extend({
 });
 
 var QuestionStore = Backbone.Collection.extend({
   model: Question,
-  url: '/static/data/questionBank.json',
+  url: "/static/data/questionBank.json",
 
   resetAndShuffle: function() {
     this.reset(this.shuffle(), {silent:true});
   }
 });
 
+var StartScreenView = Backbone.View.extend({
+  template: _.template($("#startQuizz-template").html()),
+
+  render: function() {
+    var html = this.template();
+    this.$el.html(html);
+    return this;
+  },
+
+  events: {
+    "click a#startQuizzButton": "startQuizz"
+  },
+
+  startQuizz: function() {
+    playSound("scary");
+    window.pumpkinQuizzApp.startQuizz();
+  }
+});
 
 var QuestionView = Backbone.View.extend({
-  template: _.template($('#question-template').html()),
+  template: _.template($("#question-template").html()),
 
   render: function() {
     var html = this.template({
-        question: "" + this.model.get("question"),
+        question: this.model.get("question"),
         choices: this.model.get("choices")
       });
     this.$el.html(html);
@@ -37,14 +60,14 @@ var QuestionView = Backbone.View.extend({
   },
 
   events: {
-    'click div.choice a': 'answer'
+    "click div.choice a": "answer"
   },
 
   answer: function(e) {
-    if ($(e.currentTarget).hasClass('answer')) {
+    if ($(e.currentTarget).hasClass("answer")) {
       alert("Good");
     } else {
-      playSound();
+      playSound("evil_laugh");
     }
   }
 });
@@ -56,21 +79,24 @@ var AppView = Backbone.View.extend({
     this.quizz = new QuestionStore(questionBank.slice(0, 10));
     questionBank.remove(this.quizz.toArray());
 
-    console.log("Initializing Quizz");
-    console.dir(this.quizz);
+    console.log("Initializing Quizz ("+ this.quizz.length +")");
 
-    this.startQuizz();
+    var thisAppView = this;
+    this.$el.html(new StartScreenView({ appViewQuizz:thisAppView }).render().el);
   },
 
   startQuizz: function() {
     var view = new QuestionView({ model: this.quizz.pop() });
     this.$el.html(view.render().el);
   }
+
+
 });
 var questionBank = new QuestionStore();
-questionBank.fetch({success: function() {
-  questionBank.resetAndShuffle();
-  window.pumpkinQuizzApp = new AppView();
+questionBank.fetch({
+  success: function() {
+    questionBank.resetAndShuffle();
+    window.pumpkinQuizzApp = new AppView();
   }
 });
 
@@ -78,7 +104,7 @@ questionBank.fetch({success: function() {
 if ("WebSocket" in window) {
   ws = new WebSocket("ws://" + document.domain + ":8080/websocket");
   ws.onmessage = function (msg) {
-    window.pumpkinQuizzApp = 0;
+    //window.pumpkinQuizzApp = 0;
     var message = JSON.parse(msg.data);
     $("p#log").html(message.output);
   };
@@ -100,7 +126,7 @@ if ("WebSocket" in window) {
 questionBank.forEach(function(question) {
   console.log(question.cid + " -> " +question.id + question.get("question"));
 });
-    ws.send(JSON.stringify({'text': $say.val()}));
+    ws.send(JSON.stringify({"text": $say.val()}));
   });
 
   // Cleanly close websocket when unload window
