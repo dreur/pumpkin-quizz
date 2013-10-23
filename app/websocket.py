@@ -1,7 +1,7 @@
 # coding: utf-8
 import anyjson as json
 from tornado.websocket import WebSocketHandler
-from raspberrypi import RaspberryPI
+from raspberrypi import RPI
 
 
 class WSHandler(WebSocketHandler):
@@ -16,7 +16,7 @@ class WSHandler(WebSocketHandler):
         self.write_message(json.dumps(dict(output="Hello World")))
 
     def on_message(self, incoming):
-        RaspberryPI().toggle_led(7)
+        RPI().toggle_led(7)
         print 'Message received %s' % incoming
 
         text = json.loads(incoming).get('text', None)

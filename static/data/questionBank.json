@@ -1,0 +1,23 @@
+[
+  {
+    "id": "test",
+    "question": "Who first celebrated what we've come to know as Halloween?",
+    "choices":
+      [
+        { "text": "The Druids.", "is_answer": true },
+        { "text": "The Romans." },
+        { "text":"The Christians." }
+      ],
+    "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
+  },
+  {
+    "question": "The tradition of dressing up started because:",
+    "choices":
+      [
+        { "text": "We try to scare away evil spirits.", "is_answer": true },
+        { "text": "It's a way to honor the dead." },
+        { "text": "When the evil spirits came, they wouldn't recognize you." }
+      ],
+    "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
+  }
+]
