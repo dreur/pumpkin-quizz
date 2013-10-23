@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="static/ico/favicon.png">
 
-    <title>Grid Template for Bootstrap</title>
+    <title>Pumpkin Quizz!</title>
 
     <!-- Bootstrap core CSS -->
     <link href="static/css/bootstrap.css" rel="stylesheet">
@@ -23,9 +23,14 @@
   </head>
 
   <body>
-    <div class="container" id="pump-quizz">
-
-
+    <div class="container">
+      <div id="pump-quizz">
+      </div>
+      <div class="row">
+        <p id="log"></p>
+        <input id="say" type="text">
+        <button id="send" type="button">Send!</button>
+      </div>
     </div> <!-- /container -->
 
     <!-- Bootstrap core JavaScript
@@ -40,10 +45,13 @@
     <script type="text/template" id="question-template">
       <h1><%= question %></h1>
 
-      <p></p>
       <div class="row">
-        <% _.each(choices, function(choice) { %>
-        <div class="col-md-3"><%= choice %></div>
+        <% _.each(_.shuffle(choices), function(choice) { %>
+          <% if(choice.is_answer) { %>
+            <div class="col-md-3 choice"><a class="answer"><%= choice.text %></a></div>
+          <% } else { %>
+            <div class="col-md-3 choice"><a><%= choice.text %></a></div>
+          <% } %>
         <% }); %>
       </div>
     </script>

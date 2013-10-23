@@ -1,61 +1,84 @@
 $(function($){
 
-var Question = Backbone.Model.extend({
-  defaults: {
-    "question": "Who first celebrated what we've come to know as Halloween?",
-    "choices": ["The Druids.", "The Romans.", "The Christians."],
-    "answer": 1,
-    "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
+function playSound() {
+  var snd = new Audio("static/sounds/wrong-answer-1.wav"); // buffers automatically when created
+  snd.play();
+}
+
+var Util = {
+  newChoice: function(choice, isAnswer=false) {
+    return {text: choice, is_answer: isAnswer};
   }
+};
+
+var Question = Backbone.Model.extend({
 });
 
 var QuestionStore = Backbone.Collection.extend({
   model: Question,
+  url: '/static/data/questionBank.json',
 
   resetAndShuffle: function() {
     this.reset(this.shuffle(), {silent:true});
   }
 });
 
-var questionBank = new QuestionStore();
-questionBank.add(new Question({}));
-questionBank.add(new Question({
-  question: "The tradition of dressing up started because:",
-  choices: ["We try to scare away evil spirits.", "It's a way to honor the dead.", "When the evil spirits came, they wouldn't recognize you."],
-  answer: 1,
-  source: "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
-}));
-
-questionBank.resetAndShuffle();
-var quizz = new QuestionStore(questionBank.slice(0, 10));
-
-quizz.forEach(function(question) {
-  console.log(question.cid + " -> " + question.get("question"));
-});
 
 var QuestionView = Backbone.View.extend({
-//template: _.template($('#question-template').html())
+  template: _.template($('#question-template').html()),
+
+  render: function() {
+    var html = this.template({
+        question: "" + this.model.get("question"),
+        choices: this.model.get("choices")
+      });
+    this.$el.html(html);
+    return this;
+  },
+
+  events: {
+    'click div.choice a': 'answer'
+  },
+
+  answer: function(e) {
+    if ($(e.currentTarget).hasClass('answer')) {
+      alert("Good");
+    } else {
+      playSound();
+    }
+  }
 });
 
 var AppView = Backbone.View.extend({
   el: $("#pump-quizz"),
 
   initialize: function() {
+    this.quizz = new QuestionStore(questionBank.slice(0, 10));
+    questionBank.remove(this.quizz.toArray());
+
+    console.log("Initializing Quizz");
+    console.dir(this.quizz);
+
     this.startQuizz();
   },
 
   startQuizz: function() {
-    var template = _.template($('#question-template').html());
-    var currentQuestion = quizz.pop();
-    $("#pump-quizz").html(template({question: "" + currentQuestion.get("question"), choices:currentQuestion.get("choices")}));
+    var view = new QuestionView({ model: this.quizz.pop() });
+    this.$el.html(view.render().el);
+  }
+});
+var questionBank = new QuestionStore();
+questionBank.fetch({success: function() {
+  questionBank.resetAndShuffle();
+  window.pumpkinQuizzApp = new AppView();
   }
 });
 
-var app = new AppView();
 
 if ("WebSocket" in window) {
   ws = new WebSocket("ws://" + document.domain + ":8080/websocket");
   ws.onmessage = function (msg) {
+    window.pumpkinQuizzApp = 0;
     var message = JSON.parse(msg.data);
     $("p#log").html(message.output);
   };
@@ -73,6 +96,10 @@ if ("WebSocket" in window) {
   var $say = $("input#say");
 
   $send.on("click", function() {
+    console.log(questionBank.length);
+questionBank.forEach(function(question) {
+  console.log(question.cid + " -> " +question.id + question.get("question"));
+});
     ws.send(JSON.stringify({'text': $say.val()}));
   });
 
