@@ -8,6 +8,13 @@ https://www.youtube.com/watch?v=z-0BPkHR6m8
 
 In Development! - Not ready for Halloween Yet!
 
+#### TODO
+1. Use Halloween Font
+2. Configure background and music for questions
+3. Do whole workflow of Quizz
+4. Present Answers and Score
+5. Highscore!
+
 ### Tech
 
 Hardware: Raspberry PI Model B + PI Face
