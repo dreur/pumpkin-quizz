@@ -8,8 +8,15 @@
   src: url(/static/fonts/Creepster-Regular.ttf);
 }
 
+html {
+  background-color: black;
+}
+
 body {
+  background-color: black;
   font-family: creepster;
+  font-size: 2em;
+  color: red;
 }
 
 .nintendo {
