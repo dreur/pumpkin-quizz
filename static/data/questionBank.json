@@ -1,6 +1,5 @@
 [
   {
-    "id": "test",
     "question": "Who first celebrated what we've come to know as Halloween?",
     "choices":
       [
@@ -19,5 +18,135 @@
         { "text": "When the evil spirits came, they wouldn't recognize you." }
       ],
     "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
+  },
+  {
+    "question": "The celebration of Samhain is to honor:",
+    "choices":
+      [
+        { "text": "The end of summer.", "is_answer": true },
+        { "text": "The God of the dead." },
+        { "text": "The priest who held the first Halloween service." }
+      ],
+    "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
+  },
+  {
+    "question": "The Romans called Halloween Pomona Day. Who or what was Pomona?",
+    "choices":
+      [
+        { "text": "The goddess of fruits and gardens.", "is_answer": true },
+        { "text": "The town where the Romans first celebrated Pomona Day." },
+        { "text": "The place where evil spirits dwell." }
+      ],
+    "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
+  },
+  {
+    "question": "Halloween falls on the night before:",
+    "choices":
+      [
+        { "text": "All Saint's Day.", "is_answer": true },
+        { "text": "All Soul's Day." },
+        { "text": "The first Harvest Moon." }
+      ],
+    "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
+  },
+  {
+    "question": "According to superstition, a person born on Halloween has what particular ability?",
+    "choices":
+      [
+        { "text": "They can see and talk to spirits.", "is_answer": true },
+        { "text": "They can predict death." },
+        { "text": "They will be unlucky." }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "The ancient Celts used which vegetable to carve their jack o'lanterns?",
+    "choices":
+      [
+        { "text": "Turnips", "is_answer": true },
+        { "text": "Squash" },
+        { "text": "Other" }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "Halloween originated as a pagan festival known as what?",
+    "choices":
+      [
+        { "text": "Samhain", "is_answer": true },
+        { "text": "Imbolc" },
+        { "text": "Lughnasadh" }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "According to superstition, on Halloween night owls would swoop down and feast on the souls of the dying. How could you protect yourself from hungry owls?",
+    "choices":
+      [
+        { "text": "Turn your pockets out, and leave them hanging.", "is_answer": true },
+        { "text": "Walk around your house three times backwards." },
+        { "text": "Sew a penny in your sleeve." }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "An old North American superstition states that if a cat of one of the following colors crosses your path, it is an omen of bad luck. Which color is it?",
+    "choices":
+      [
+        { "text": "Black", "is_answer": true },
+        { "text": "Yellow" },
+        { "text": "White" }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "According to a Halloween superstition, what should you do if you want to see a witch?",
+    "choices":
+      [
+        { "text": "Put your clothes on inside out and walk backwards.", "is_answer": true },
+        { "text": "Carry a lamp to a spring of water." },
+        { "text": "Light a fire at a crossroads at midnight." }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "Which country celebrates the Day of the Dead starting at midnight Oct. 31?",
+    "choices":
+      [
+        { "text": "Mexico", "is_answer": true },
+        { "text": "Germany" },
+        { "text": "USA" }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "It was believed that on Halloween, spirits and other evil creatures roamed the earth. How could you protect yourself from evil?",
+    "choices":
+      [
+        { "text": "Bury animal bones in your front yard.", "is_answer": true },
+        { "text": "Host a 'dumb supper'." },
+        { "text": "Sacrifice an animal." }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "The ancient Celts began the tradition of wearing masks and costumes on Halloween. Why?",
+    "choices":
+      [
+        { "text": "To trick evil spirits.", "is_answer": true },
+        { "text": "To avoid being recognized." },
+        { "text": "To honor the dead." }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "According to superstition, what does it mean if you see a spider on Halloween?",
+    "choices":
+      [
+        { "text": "A dead relative is watching over you.", "is_answer": true },
+        { "text": "Your house needs cleaning." },
+        { "text": "Death will come to you in the next year." }
+      ],
+    "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
   }
 ]
