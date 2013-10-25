@@ -9,7 +9,8 @@ _.each([
     sounds[sound.name] = new Audio(sound.url);
   });
 
-function playSound(name, volume=1) {
+function playSound(name, volume) {
+  volume = volume || 1;
   console.log("Playing sound: " + name);
   var snd = sounds[name];
   snd.volume = volume;
@@ -69,6 +70,8 @@ var QuestionView = Backbone.View.extend({
     } else {
       playSound("evil_laugh");
     }
+    var qModel = this.model;
+    window.pumpkinQuizzApp.nextQuestion({ model: this.model });
   }
 });
 
@@ -86,10 +89,22 @@ var AppView = Backbone.View.extend({
   },
 
   startQuizz: function() {
-    var view = new QuestionView({ model: this.quizz.pop() });
-    this.$el.html(view.render().el);
-  }
+    this.nextQuestion();
+  },
 
+  nextQuestion: function(previousQuestion) {
+    if (previousQuestion) {
+      console.dir(previousQuestion);
+    }
+
+    var nextQuestion = this.quizz.pop();
+    if (nextQuestion) {
+      var view = new QuestionView({ model: nextQuestion });
+      this.$el.html(view.render().el);
+    } else {
+      alert("Quizz is over!!");
+    }
+  }
 
 });
 var questionBank = new QuestionStore();
