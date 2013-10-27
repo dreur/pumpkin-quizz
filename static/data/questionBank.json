@@ -1,11 +1,62 @@
 [
   {
+    "question": "What did the Celtic people believe had magical properties?",
+    "choices":
+      [
+        { "text": "turning points", "is_answer": true },
+        { "text": "pumpkins" },
+        { "text": "black cats" }
+      ],
+    "source": "http://tlc.howstuffworks.com/family/halloween-quiz.htm"
+  },
+  {
+    "question": "Approximately what percentage of U.S. children go trick-or-treating or engage in other Halloween festivities each year?",
+    "choices":
+      [
+        { "text": "85 to 90 percent", "is_answer": true },
+        { "text": "70 to 75 percent" },
+        { "text": "60 to 65 percent" }
+      ],
+    "source": "http://tlc.howstuffworks.com/family/halloween-quiz.htm"
+  },
+  {
+    "question": "What was the goal of trick-or-treating before candy came into the picture?",
+    "choices":
+      [
+        { "text": "soul cakes", "is_answer": true },
+        { "text": "money" },
+        { "text": "apples" }
+      ],
+    "source": "http://tlc.howstuffworks.com/family/halloween-quiz.htm"
+  },
+  {
+    "question": "Which of these 20th century American icons died on Halloween?",
+    "choices":
+      [
+        { "text": "River Phoenix", "is_answer": true },
+        { "text": "James Dean" },
+        { "text": "Kurt Cobain" }
+      ],
+    "source": "http://www.theguardian.com/quiz/questions/0,,1935789,00.html"
+  },
+  
+  {
+    "question": "The word comes from medieval England's All Hallows' ___.",
+    "choices":
+      [
+        { "text": "eve", "is_answer": true },
+        { "text": "time" },
+        { "text": "month" }
+      ],
+    "source": "http://a4esl.org/q/h/vm/halloween.html"
+  },  
+  {
     "question": "Who first celebrated what we've come to know as Halloween?",
     "choices":
       [
         { "text": "The Druids.", "is_answer": true },
         { "text": "The Romans." },
-        { "text":"The Christians." }
+        { "text": "The Christians." }
       ],
     "source": "http://quizzes.familyeducation.com/halloween/history-of-halloween/halloween-quiz.html"
   },
@@ -148,5 +199,15 @@
         { "text": "Death will come to you in the next year." }
       ],
     "source": "http://puzzles.about.com/od/trivia/l/bl_halloweenquiz_results.htm?level=11&question1=b&question2=c&question3=c&question4=d&question5=c&question6=b&question7=c&question8=c&question9=c&question10=d&q0=6&q1=4&q2=8&q3=0&q4=9&q5=1&q6=7&q7=2&q8=10&q9=3&last=11&q10=5&question11=d"
+  },
+  {
+    "question": "Of the Halloween movies, which movie does not feature Michael Myers?",
+    "choices":
+      [
+        { "text": "Halloween 3", "is_answer": true },
+        { "text": "Halloween 6" },
+        { "text": "Halloween 10" }
+      ],
+    "source": "http://www.absurdtrivia.com/quiz/000114/halloween-movies-trivia/"
   }
 ]

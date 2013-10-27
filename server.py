@@ -12,13 +12,18 @@ from app.websocket import WSHandler
 
 
 def broadcast(msg):
+  RPI().toggle_led(7)
   for clientid, client in WSHandler.WSCLIENTS.items():
-    client.write_message(json.dumps({'output': msg}))
-    RPI().toggle_led(7)
+    client.write_message(json.dumps({'command': 'print', 'args': { 'msg': msg }}))
+
+def broadcastButton(idx):
+  RPI().toggle_led(7)
+  for clientid, client in WSHandler.WSCLIENTS.items():
+    client.write_message(json.dumps({'command': 'buttonPressed', 'args': { 'idx': idx }}))
 
 
 def button_pressed(event):
-  broadcast('You pressed button %s.' % event.pin_num)
+  broadcastButton(event.pin_num)
   print("Flag:      ", bin(event.interrupt_flag))
   print("Capture:   ", bin(event.interrupt_capture))
   print("Pin num:   ", event.pin_num)
@@ -40,12 +45,16 @@ if __name__ == '__main__':
 
   application.listen(8080)
 
+  RPI().register_listener(0, button_pressed)
+  RPI().register_listener(1, button_pressed)
+  RPI().register_listener(2, button_pressed)
+  RPI().register_listener(3, button_pressed)
   RPI().activate()
-  print "Server active: http://localhost:8080/"
 
+  print "Server active: http://localhost:8080/"
   try:
     IOLoop.instance().start()
   except:
-    print "Except!"
+    print "Server shutting down!"
 
   RPI().shutdown()
