@@ -1,3 +1,4 @@
+import logging
 from util import singleton
 
 def OnPI(func):
@@ -10,29 +11,31 @@ def OnPI(func):
 
 @singleton
 class RPI:
+  "Singleton offering a Facade to all of RaspberryPi features"
 
   def __init__(self):
     try:
       import pifacecommon
       import pifacedigitalio
+      pifacedigitalio.init()
+      #pifacecommon.core.init()
+
       self.on_pi=True
-    except:
+    except Exception as ex:
+      logging.exception("Something awful happened!")
       self.on_pi=False
 
     if self.on_pi:
-      pifacedigitalio.init()
-      pifacecommon.core.init()
+      self.pifacecommon = pifacecommon
+      self.pifacedigitalio = pifacedigitalio
 
       self.pifacedigital = pifacedigitalio.PiFaceDigital()
-
-      # GPIOB is the input ports, including the four buttons.
-      port = pifacecommon.core.GPIOB
-      self.listener = pifacecommon.interrupts.PortEventListener(port)
+      self.listener = pifacedigitalio.InputEventListener(chip=self.pifacedigital)
 
   def register_listener(self, button_number, method):
     # set up listeners for all buttons
     if self.on_pi:
-      self.listener.register(button_number, pifacecommon.interrupts.IODIR_ON, method)
+      self.listener.register(button_number, self.pifacecommon.interrupts.IODIR_ON, method)
 
   def activate(self):
     if self.on_pi:
@@ -41,7 +44,7 @@ class RPI:
   def shutdown(self):
     if self.on_pi:
       self.listener.deactivate()
-      pifacedigitalio.init()
+      self.pifacedigitalio.init()
 
   def toggle_led(self, led_number):
     if self.on_pi:

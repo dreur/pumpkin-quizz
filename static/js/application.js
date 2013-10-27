@@ -1,23 +1,45 @@
 $(function($){
 
-var sounds = {};
-_.each([
-    { name: "evil_laugh", url:"/static/sounds/dark-laugh.wav" },
-    { name: "scary", url:"/static/sounds/scary.wav" }
-  ], function(sound) {
-    // preloading
-    sounds[sound.name] = new Audio(sound.url);
-  });
+var SoundController = {
+  sounds: {},
 
-function playSound(name, volume) {
-  volume = volume || 1;
-  console.log("Playing sound: " + name);
-  var snd = sounds[name];
-  snd.volume = volume;
-  snd.play();
-}
+  init: function() {
+    var thisctler = this;
+    _.each([
+        { name: "evil_laugh", url:"/static/sounds/dark-laugh.wav" },
+        { name: "scary", url:"/static/sounds/scary.wav" }
+      ], function(sound) {
+        // preloading
+        thisctler.sounds[sound.name] = new Audio(sound.url);
+      }
+    );
+  },
+
+  get: function(name) {
+    return this.sounds[name];
+  },
+
+  play: function(name, volume, callbacks) {
+    var snd = this.get(name);
+    callbacks = callbacks || {};
+    console.log("Playing sound: " + name);
+    snd.volume = volume || 1;
+    snd.onended = callbacks.onended || function() {console.log("Finished Playing sound: " + name);};
+    snd.play();
+    return snd;
+  }
+};
 
 var Question = Backbone.Model.extend({
+  getAnswer: function() {
+    return _.find(this.get("choices"), function(choice) {return choice.is_answer;}).text;
+  },
+  getChoice: function(idx) {
+    return this.get("choices")[idx].text;
+  },
+  isAnswer: function(idx) {
+    return this.get("choices")[idx].is_answer;
+  }
 });
 
 var QuestionStore = Backbone.Collection.extend({
@@ -39,11 +61,11 @@ var StartScreenView = Backbone.View.extend({
   },
 
   events: {
-    "click a#startQuizzButton": "startQuizz"
+    "click a#startQuizzButton": "buttonPressed"
   },
 
-  startQuizz: function() {
-    playSound("scary");
+  buttonPressed: function() {
+    SoundController.play("scary");
     window.pumpkinQuizzApp.startQuizz();
   }
 });
@@ -61,14 +83,32 @@ var QuestionView = Backbone.View.extend({
   },
 
   events: {
-    "click div.choice a": "answer"
+    "click a.choice": "buttonPressed"
   },
 
-  answer: function(e) {
-    if ($(e.currentTarget).hasClass("answer")) {
-      alert("Good");
+  buttonPressed: function(e) {
+    var index = 0;
+    if (e.currentTarget) {
+      var target = $(e.currentTarget);
+      index = target.index();
     } else {
-      playSound("evil_laugh");
+      index = e;
+    }
+
+    console.log("Button Pressed = " + index);
+
+    var question = this.model.get("question");
+    var choice = this.model.getChoice(index);
+    var answer = this.model.getAnswer();
+
+    this.model.set("isRight", choice === answer);
+    this.model.set("choice", choice);
+    this.model.set("answer", answer);
+
+    if (choice === answer) {
+      console.log(choice + "==" + answer);
+    } else {
+      SoundController.play("evil_laugh");
     }
     var qModel = this.model;
     window.pumpkinQuizzApp.nextQuestion({ model: this.model });
@@ -79,13 +119,57 @@ var AppView = Backbone.View.extend({
   el: $("#pump-quizz"),
 
   initialize: function() {
+    var appView = this;
+    SoundController.init();
+
     this.quizz = new QuestionStore(questionBank.slice(0, 10));
     questionBank.remove(this.quizz.toArray());
+    this.quizzAnswer = new QuestionStore();
+
+    if ("WebSocket" in window) {
+      this.ws = new WebSocket("ws://" + document.domain + ":8080/websocket");
+      this.ws.onmessage = function (msg) {
+        console.dir(msg.data);
+        var message = JSON.parse(msg.data);
+
+        var command = appView[message.command];
+        if (_.isFunction(command)) {
+          console.log("The command " + message.command + " is a function!");
+          command.apply(appView, [message.args]);
+        } else {
+          console.dir(message);
+        }
+      };
+
+      this.ws.onclose = function (evt) {
+        if (!evt.wasClean && evt.code == 1006) {
+          setTimeout(function () { location.reload(true); }, 7 * 1000);
+        } else {
+          console.dir(evt);
+        }
+      };
+
+      //this.ws.send(JSON.stringify({"text": $say.val()}));
+
+      // Cleanly close websocket when unload window
+      window.onbeforeunload = function() {
+        appView.ws.onclose = function () {}; // disable onclose handler first
+        appView.ws.close()
+      };
+    }
 
     console.log("Initializing Quizz ("+ this.quizz.length +")");
 
     var thisAppView = this;
-    this.$el.html(new StartScreenView({ appViewQuizz:thisAppView }).render().el);
+    this.replaceView(new StartScreenView({ appViewQuizz:thisAppView }));
+  },
+
+  replaceView: function(newView) {
+    if (this.currentView) {
+      this.currentView.remove();
+    }
+    this.currentView = newView;
+    this.$el.html(this.currentView.render().el);
   },
 
   startQuizz: function() {
@@ -94,61 +178,36 @@ var AppView = Backbone.View.extend({
 
   nextQuestion: function(previousQuestion) {
     if (previousQuestion) {
-      console.dir(previousQuestion);
+      this.quizzAnswer.add(previousQuestion);
     }
 
     var nextQuestion = this.quizz.pop();
     if (nextQuestion) {
-      var view = new QuestionView({ model: nextQuestion });
-      this.$el.html(view.render().el);
+      this.replaceView(new QuestionView({ model: nextQuestion }));
     } else {
       alert("Quizz is over!!");
+    }
+  },
+
+  buttonPressed: function(args) {
+    if (this.currentView && this.currentView.buttonPressed && _.undefined(args.idx)) {
+      this.currentView.buttonPressed(args.idx);
+    } else {
+      console.log("Button press not implemented by current view");
     }
   }
 
 });
+
 var questionBank = new QuestionStore();
 questionBank.fetch({
   success: function() {
+    window.console.log("Fetching Questions");
     questionBank.resetAndShuffle();
     window.pumpkinQuizzApp = new AppView();
   }
 });
 
-
-if ("WebSocket" in window) {
-  ws = new WebSocket("ws://" + document.domain + ":8080/websocket");
-  ws.onmessage = function (msg) {
-    //window.pumpkinQuizzApp = 0;
-    var message = JSON.parse(msg.data);
-    $("p#log").html(message.output);
-  };
-
-  ws.onclose = function (evt) {
-    if (!evt.wasClean && evt.code == 1006) {
-      setTimeout(function () { location.reload(true); }, 5 * 1000);
-    } else {
-      console.dir(evt);
-    }
-  };
-
-  // Bind send button to websocket
-  var $send = $("button#send");
-  var $say = $("input#say");
-
-  $send.on("click", function() {
-    console.log(questionBank.length);
-questionBank.forEach(function(question) {
-  console.log(question.cid + " -> " +question.id + question.get("question"));
-});
-    ws.send(JSON.stringify({"text": $say.val()}));
-  });
-
-  // Cleanly close websocket when unload window
-  window.onbeforeunload = function() {
-    ws.onclose = function () {}; // disable onclose handler first
-    ws.close()
-  };
-}
+console.log("Done");
 
 });
