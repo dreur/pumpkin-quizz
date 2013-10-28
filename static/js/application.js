@@ -22,8 +22,10 @@ var SoundController = {
   play: function(name, volume, callbacks) {
     var snd = this.get(name);
     callbacks = callbacks || {};
-    console.log("Playing sound: " + name);
+    //console.log("Playing sound: " + name);
+    snd.pause();
     snd.volume = volume || 1;
+    snd.currentTime = 0;
     snd.onended = callbacks.onended || function() {console.log("Finished Playing sound: " + name);};
     snd.play();
     return snd;
@@ -47,6 +49,7 @@ var QuestionStore = Backbone.Collection.extend({
   url: "/static/data/questionBank.json",
 
   resetAndShuffle: function() {
+    this.each(function(question) { question.set("choices", _.shuffle(question.get("choices"))); });
     this.reset(this.shuffle(), {silent:true});
   }
 });
@@ -66,7 +69,25 @@ var StartScreenView = Backbone.View.extend({
 
   buttonPressed: function() {
     SoundController.play("scary");
-    window.pumpkinQuizzApp.startQuizz();
+    pumpkinQuizzApp.startQuizz();
+  }
+});
+
+var AnswersView = Backbone.View.extend({
+  template: _.template($("#answers-template").html()),
+
+  initialize: function() {
+    console.dir(this.model);
+  },
+
+  render: function() {
+    var html = this.template({ rightAnswers: this.model.countBy(function(q) { return q.get("isRight"); }), questions: this.model.models});
+    this.$el.html(html);
+    return this;
+  },
+
+  buttonPressed: function() {
+    pumpkinQuizzApp.startQuizz();
   }
 });
 
@@ -96,6 +117,9 @@ var QuestionView = Backbone.View.extend({
     }
 
     console.log("Button Pressed = " + index);
+    _.each(this.model.get("choices"), function(choice, index) {
+      console.log(index + " - " + choice.text + " - " + choice.is_answer);
+    });
 
     var question = this.model.get("question");
     var choice = this.model.getChoice(index);
@@ -105,36 +129,36 @@ var QuestionView = Backbone.View.extend({
     this.model.set("choice", choice);
     this.model.set("answer", answer);
 
-    if (choice === answer) {
-      console.log(choice + "==" + answer);
-    } else {
+    if (choice !== answer) {
       SoundController.play("evil_laugh");
     }
     var qModel = this.model;
-    window.pumpkinQuizzApp.nextQuestion({ model: this.model });
+    pumpkinQuizzApp.nextQuestion(this.model);
   }
 });
+
+var questionBank = new QuestionStore();
 
 var AppView = Backbone.View.extend({
   el: $("#pump-quizz"),
 
-  initialize: function() {
+  initQuizz: function() {
     var appView = this;
-    SoundController.init();
-
     this.quizz = new QuestionStore(questionBank.slice(0, 10));
+    if (this.quizz.size() != 10) {
+      window.location.reload(true);
+    }
+    console.log("Initializing Quizz ("+ this.quizz.length +")");
     questionBank.remove(this.quizz.toArray());
     this.quizzAnswer = new QuestionStore();
 
     if ("WebSocket" in window) {
       this.ws = new WebSocket("ws://" + document.domain + ":8080/websocket");
       this.ws.onmessage = function (msg) {
-        console.dir(msg.data);
         var message = JSON.parse(msg.data);
 
         var command = appView[message.command];
         if (_.isFunction(command)) {
-          console.log("The command " + message.command + " is a function!");
           command.apply(appView, [message.args]);
         } else {
           console.dir(message);
@@ -143,7 +167,7 @@ var AppView = Backbone.View.extend({
 
       this.ws.onclose = function (evt) {
         if (!evt.wasClean && evt.code == 1006) {
-          setTimeout(function () { location.reload(true); }, 7 * 1000);
+          setTimeout(function () { window.location.reload(true); }, 7 * 1000);
         } else {
           console.dir(evt);
         }
@@ -158,7 +182,18 @@ var AppView = Backbone.View.extend({
       };
     }
 
-    console.log("Initializing Quizz ("+ this.quizz.length +")");
+  },
+
+  initialize: function() {
+    var appView = this;
+    SoundController.init();
+
+    questionBank.fetch({
+      success: function() {
+        questionBank.resetAndShuffle();
+        appView.initQuizz();
+      }
+    });
 
     var thisAppView = this;
     this.replaceView(new StartScreenView({ appViewQuizz:thisAppView }));
@@ -185,12 +220,12 @@ var AppView = Backbone.View.extend({
     if (nextQuestion) {
       this.replaceView(new QuestionView({ model: nextQuestion }));
     } else {
-      alert("Quizz is over!!");
+      this.replaceView(new AnswersView({ model: this.quizzAnswer }));
     }
   },
 
   buttonPressed: function(args) {
-    if (this.currentView && this.currentView.buttonPressed && ! _.undefined(args.idx)) {
+    if (this.currentView && this.currentView.buttonPressed && ! _.isUndefined(args.idx)) {
       this.currentView.buttonPressed(args.idx);
     } else {
       console.log("Button press not implemented by current view");
@@ -199,15 +234,6 @@ var AppView = Backbone.View.extend({
 
 });
 
-var questionBank = new QuestionStore();
-questionBank.fetch({
-  success: function() {
-    window.console.log("Fetching Questions");
-    questionBank.resetAndShuffle();
-    window.pumpkinQuizzApp = new AppView();
-  }
-});
-
-console.log("Done");
+var pumpkinQuizzApp = new AppView();
 
 });

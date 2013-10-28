@@ -14,7 +14,6 @@ html {
 
 body {
   background-color: black;
-  font-family: creepster;
   font-size: 2em;
   color: red;
 }
@@ -29,4 +28,8 @@ body {
 
 .choice {
   font-size: 1.5em;
+}
+
+td, th {
+  padding: 0.1em;
 }
