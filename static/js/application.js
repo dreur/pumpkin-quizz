@@ -190,7 +190,7 @@ var AppView = Backbone.View.extend({
   },
 
   buttonPressed: function(args) {
-    if (this.currentView && this.currentView.buttonPressed && _.undefined(args.idx)) {
+    if (this.currentView && this.currentView.buttonPressed && ! _.undefined(args.idx)) {
       this.currentView.buttonPressed(args.idx);
     } else {
       console.log("Button press not implemented by current view");
