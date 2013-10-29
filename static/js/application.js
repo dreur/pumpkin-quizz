@@ -81,7 +81,7 @@ var AnswersView = Backbone.View.extend({
   },
 
   render: function() {
-    var html = this.template({ rightAnswers: this.model.countBy(function(q) { return q.get("isRight"); }), questions: this.model.models});
+    var html = this.template({ rightAnswers: this.model.countBy(function(q) { return q.get("isRight") ? "right" : "wrong";}), questions: this.model.models});
     this.$el.html(html);
     return this;
   },
