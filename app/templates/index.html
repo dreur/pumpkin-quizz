@@ -23,7 +23,8 @@
   </head>
 
   <body>
-    <div class="container" id="pump-quizz">
+    <div class="container">
+      <div id="pump-quizz"></div>
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -36,45 +37,55 @@
     <script src="static/js/application.js"></script>
 
     <script type="text/template" id="startQuizz-template">
-      <h1 class="nintendo">Pumpkin Quizz!</h1>
-
-      <div class="nintendo row">
-        <div class=".col-md-6 .col-md-offset-3"><a id="startQuizzButton">Press (A) to Start Quizz!</a></div>
+      <div class="nintendo">
+        <div class="row">
+          <h1 class="col-md-9">Pumpkin Quizz!</h1>
+        </div>
+        <div class="row">
+          <div class=".col-md-6 .col-md-offset-3"><a id="startQuizzButton">Press a Pumpkin to Start!</a></div>
+        </div>
       </div>
     </script>
     <script type="text/template" id="question-template">
-      <h1 class="creepy"><%= question %></h1>
-
       <div class="row">
-        <% _.each(choices, function(choice, index) { %>
-          <a class="col-md-3 choice choice_<%= index %> <% if(choice.is_answer) { %>answer<% } %>">
-            <%= choice.text %></a>
-        <% }); %>
+        <h1 class="col-md-9 creepy"><%= question %></h1>
       </div>
+      <% _.each(choices, function(choice, index) { %>
+        <div class="row">
+          <a class="col-md-9 col-md-9 choice choice_<% index %> <% if(choice.is_answer) { %>answer<% } %>">
+            <%= index + 1 %> - <%= choice.text %>
+          </a>
+        </div>
+      <% }); %>
     </script>
     <script type="text/template" id="answers-template">
-      <h1 class="nintendo">Congratulations!</h1>
-      <h3 class="nintendo"><%= rightAnswers.right %></h3>
-
-      <div class="row">
-        <table class="col-md-9" border=1>
-        <tr>
-          <th>#</th>
-          <th>Question</th>
-          <th>Answer</th>
-          <th>Your Answer</th>
-        </tr>
-        <% _.each(questions, function(question, index) { %>
-          <% if (! question.get("isRight")) { %>
-          <tr>
-            <td><%= index %></td>
-            <td><%= question.get("question") %></td>
-            <td><%= question.get("answer") %></td>
-            <td>%= question.get("choice") %>/td>
-          </tr>
-          <% } %>
-        <% }); %>
-        </table>
+      <div class="row answers">
+        <h1 class="col-md-9 nintendo">Congratulations!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="timer"></span></h1>
+      </div>
+      <div class="row answers">
+        <h3 class="col-md-9 nintendo">YOUR SCORE: <%= rightAnswers.right %>/10</h3>
+      </div>
+      <div class="row answers">
+        <% if (rightAnswers.right != 10) { %>
+          <table class="col-md-9">
+            <tr>
+              <th>#</th>
+              <th>Question</th>
+              <th>Answer</th>
+              <th>Your Answer</th>
+            </tr>
+            <% _.each(questions, function(question, index) { %>
+              <% if (! question.get("isRight")) { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= question.get("question") %></td>
+                <td><%= question.get("answer") %></td>
+                <td><%= question.get("choice") %></td>
+              </tr>
+              <% } %>
+            <% }); %>
+          </table>
+        <% } %>
       </div>
     </script>
   </body>

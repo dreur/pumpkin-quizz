@@ -30,6 +30,18 @@ body {
   font-size: 1.5em;
 }
 
+.answers td {
+  border-bottom: 1px solid;
+}
+
+.answers th {
+  border-bottom: 1px dashed;
+}
+
 td, th {
   padding: 0.1em;
+}
+
+#pump-quizz {
+  margin-top: 15%;
 }

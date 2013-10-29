@@ -116,10 +116,10 @@ var QuestionView = Backbone.View.extend({
       index = e;
     }
 
-    console.log("Button Pressed = " + index);
+    /*console.log("Button Pressed = " + index);
     _.each(this.model.get("choices"), function(choice, index) {
       console.log(index + " - " + choice.text + " - " + choice.is_answer);
-    });
+    });*/
 
     var question = this.model.get("question");
     var choice = this.model.getChoice(index);
@@ -220,7 +220,21 @@ var AppView = Backbone.View.extend({
     if (nextQuestion) {
       this.replaceView(new QuestionView({ model: nextQuestion }));
     } else {
-      this.replaceView(new AnswersView({ model: this.quizzAnswer }));
+      if (! _.isUndefined(this.count)) {
+        this.count = this.count - 5;
+      } else {
+        this.count = 15;
+        this.replaceView(new AnswersView({ model: this.quizzAnswer }));
+        var thecount = this.count;
+        var counter = setInterval(function() {
+          thecount=thecount-1;
+          $("#timer").html(thecount);
+          if (thecount <= 0) {
+             window.location.reload(true);
+             return;
+          }
+        }, 1000);
+      }
     }
   },
 
