@@ -6,6 +6,7 @@ var SoundController = {
   init: function() {
     var thisctler = this;
     _.each([
+        { name: "background_armel", url:"/static/sounds/background-armel.wav" },
         { name: "evil_laugh", url:"/static/sounds/dark-laugh.wav" },
         { name: "scary", url:"/static/sounds/scary.wav" }
       ], function(sound) {
@@ -208,6 +209,7 @@ var AppView = Backbone.View.extend({
   },
 
   startQuizz: function() {
+    SoundController.play("background_armel").loop = true;
     this.nextQuestion();
   },
 
