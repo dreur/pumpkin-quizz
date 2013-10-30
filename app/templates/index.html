@@ -37,22 +37,20 @@
     <script src="static/js/application.js"></script>
 
     <script type="text/template" id="startQuizz-template">
-      <div class="nintendo">
-        <div class="row">
-          <h1 class="col-md-9">Pumpkin Quizz!</h1>
-        </div>
-        <div class="row">
-          <div class=".col-md-6 .col-md-offset-3"><a id="startQuizzButton">Press a Pumpkin to Start!</a></div>
-        </div>
+      <div class="row">
+        <h1 class="col-md-12 nintendo">Pumpkin Quizz!</h1>
+      </div>
+      <div class="row nintendo">
+        <div class=".col-md-6 .col-md-offset-3"><a id="startQuizzButton">Press a Pumpkin to Start!</a></div>
       </div>
     </script>
     <script type="text/template" id="question-template">
       <div class="row">
-        <h1 class="col-md-9 creepy"><%= question %></h1>
+        <h1 class="col-md-12 creepy"><%= question %></h1>
       </div>
       <% _.each(choices, function(choice, index) { %>
         <div class="row">
-          <a class="col-md-9 col-md-9 choice choice_<% index %> <% if(choice.is_answer) { %>answer<% } %>">
+          <a class="col-md-12 choice choice_<% index %> <% if(choice.is_answer) { %>answer<% } %>">
             <%= index + 1 %> - <%= choice.text %>
           </a>
         </div>
@@ -60,14 +58,14 @@
     </script>
     <script type="text/template" id="answers-template">
       <div class="row answers">
-        <h1 class="col-md-9 nintendo">Congratulations!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="timer"></span></h1>
+        <h1 class="col-md-12 nintendo">Congratulations!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="timer"></span></h1>
       </div>
       <div class="row answers">
         <h3 class="col-md-9 nintendo">YOUR SCORE: <%= rightAnswers.right %>/10</h3>
       </div>
       <div class="row answers">
         <% if (rightAnswers.right != 10) { %>
-          <table class="col-md-9">
+          <table class="col-md-12">
             <tr>
               <th>#</th>
               <th>Question</th>

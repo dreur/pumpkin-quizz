@@ -35,7 +35,7 @@ class RPI:
   def register_listener(self, button_number, method):
     # set up listeners for all buttons
     if self.on_pi:
-      self.listener.register(button_number, self.pifacecommon.interrupts.IODIR_ON, method)
+      self.listener.register(button_number, self.pifacecommon.interrupts.IODIR_ON, method, 2)
 
   def activate(self):
     if self.on_pi:

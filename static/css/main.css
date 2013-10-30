@@ -13,9 +13,14 @@ html {
 }
 
 body {
-  background-color: black;
+  background-color:transparent;
   font-size: 2em;
   color: red;
+}
+
+#pump-quizz {
+  padding: 0.1em;
+  background-color:rgba(0,0,0,0.6);
 }
 
 .nintendo {
@@ -44,4 +49,8 @@ td, th {
 
 #pump-quizz {
   margin-top: 15%;
+}
+
+h1 {
+  text-align: center;
 }

@@ -54,13 +54,15 @@ var QuestionStore = Backbone.Collection.extend({
   }
 });
 
+var themes = [];
+
 var StartScreenView = Backbone.View.extend({
   template: _.template($("#startQuizz-template").html()),
 
   render: function() {
     var html = this.template();
-    this.$el.html(html);
-    return this;
+    this.$el.html(html).hide().slideDown(600);
+    return this
   },
 
   events: {
@@ -97,7 +99,8 @@ var QuestionView = Backbone.View.extend({
   render: function() {
     var html = this.template({
         question: this.model.get("question"),
-        choices: this.model.get("choices")
+        choices: this.model.get("choices"),
+        theme: themes.pop()
       });
     this.$el.html(html);
     return this;
@@ -190,13 +193,20 @@ var AppView = Backbone.View.extend({
 
     questionBank.fetch({
       success: function() {
+        console.log("QuestionBank fetched!");
         questionBank.resetAndShuffle();
-        appView.initQuizz();
+        $.ajax({url : '/static/data/theme.json'}).done(function(data) {
+            console.log("Themes fetched!");
+            _.each(data, function(img) {
+              img.preload = new Image();
+              img.preload.src = img.background;
+            });
+            themes = _.shuffle(data);
+            appView.initQuizz();
+            appView.replaceView(new StartScreenView({ appViewQuizz:appView }));
+        });
       }
     });
-
-    var thisAppView = this;
-    this.replaceView(new StartScreenView({ appViewQuizz:thisAppView }));
   },
 
   replaceView: function(newView) {
@@ -204,7 +214,7 @@ var AppView = Backbone.View.extend({
       this.currentView.remove();
     }
     this.currentView = newView;
-    this.$el.html(this.currentView.render().el);
+    this.$el.hide().html(this.currentView.render().el).slideDown(800);
   },
 
   startQuizz: function() {
@@ -218,12 +228,17 @@ var AppView = Backbone.View.extend({
 
     var nextQuestion = this.quizz.pop();
     if (nextQuestion) {
+      $('html').css('background', 'url("'+themes.pop().background+'") black');
+      //$('body').css('background-color', 'inherit');
       this.replaceView(new QuestionView({ model: nextQuestion }));
     } else {
+      $('html').css('background', '');
+      $('body').css('background-color', 'black');
       if (! _.isUndefined(this.count)) {
         this.count = this.count - 5;
       } else {
         this.count = 15;
+        $("#timer").html(thecount);
         this.replaceView(new AnswersView({ model: this.quizzAnswer }));
         var thecount = this.count;
         var counter = setInterval(function() {
