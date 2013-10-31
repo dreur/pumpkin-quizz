@@ -121,6 +121,14 @@ var QuestionView = Backbone.View.extend({
       index = e;
     }
 
+    console.dir($('a.choice'));
+
+
+    var theChoiceEl = $('a.choice')[index];
+    console.dir(theChoiceEl);
+
+    $(theChoiceEl).css('color', 'red');
+
     /*console.log("Button Pressed = " + index);
     _.each(this.model.get("choices"), function(choice, index) {
       console.log(index + " - " + choice.text + " - " + choice.is_answer);
@@ -212,11 +220,14 @@ var AppView = Backbone.View.extend({
   },
 
   replaceView: function(newView) {
-    if (this.currentView) {
-      this.currentView.remove();
-    }
-    this.currentView = newView;
-    this.$el.hide().html(this.currentView.render().el).slideDown(800);
+    var theThis = this;
+    setTimeout(function() {
+      if (theThis.currentView) {
+        theThis.currentView.remove();
+      }
+      theThis.currentView = newView;
+      theThis.$el.hide().html(theThis.currentView.render().el).slideDown(800);
+    }, 500);
   },
 
   startQuizz: function() {

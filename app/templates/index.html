@@ -40,21 +40,24 @@
       <div class="row">
         <h1 class="col-md-12 nintendo">Pumpkin Quizz!</h1>
       </div>
-      <div class="row nintendo">
-        <div class=".col-md-6 .col-md-offset-3" style="text-decoration:blink;"><a id="startQuizzButton">Press a Pumpkin to Start!</a></div>
+      <div class="row nintendo" style="text-align:center;text-decoration:blink;">
+        <br/>
+        <br/>
+        <br/>
+        <div class=".col-md-6 .col-md-offset-3"><a id="startQuizzButton">Press a Pumpkin to Start!</a></div>
       </div>
     </script>
     <script type="text/template" id="question-template">
       <div class="row">
         <h1 class="col-md-12 creepy"><%= question %></h1>
       </div>
+      <div>
       <% _.each(choices, function(choice, index) { %>
-        <div class="row">
-          <a class="col-md-12 choice choice_<% index %> <% if(choice.is_answer) { %>answer<% } %>">
-            <%= index + 1 %> - <%= choice.text %>
-          </a>
-        </div>
+        <a class="row col-md-12 choice choice_<% index %> <% if(choice.is_answer) { %>answer<% } %>">
+          <%= index + 1 %> - <%= choice.text %>
+        </a>
       <% }); %>
+      <div>
     </script>
     <script type="text/template" id="answers-template">
       <div class="row answers">
