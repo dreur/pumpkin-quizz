@@ -37,6 +37,10 @@ class RPI:
     if self.on_pi:
       self.listener.register(button_number, self.pifacecommon.interrupts.IODIR_ON, method, 2)
 
+  def init(self):
+    if self.on_pi:
+      self.pifacedigitalio.init()
+
   def activate(self):
     if self.on_pi:
       self.listener.activate()
@@ -49,3 +53,14 @@ class RPI:
   def toggle_led(self, led_number):
     if self.on_pi:
       self.pifacedigital.leds[led_number].toggle()
+
+  def all_on(self):
+    if self.on_pi:
+      try:
+        self.pifacedigital.output_port.all_on()
+      except Exception as ex:
+        logging.exception("Could not turn all relas on!")
+      try:
+        self.pifacedigital.relays.all_on()
+      except Exception as ex:
+        logging.exception("Could not turn all relas on!")

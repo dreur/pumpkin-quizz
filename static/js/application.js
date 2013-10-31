@@ -27,7 +27,7 @@ var SoundController = {
     snd.pause();
     snd.volume = volume || 1;
     snd.currentTime = 0;
-    snd.onended = callbacks.onended || function() {console.log("Finished Playing sound: " + name);};
+    //snd.onended = callbacks.onended || function() {console.log("Finished Playing sound: " + name);};
     snd.play();
     return snd;
   }

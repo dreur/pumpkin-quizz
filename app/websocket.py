@@ -16,14 +16,15 @@ class WSHandler(WebSocketHandler):
         self.write_message(json.dumps(dict(output="Hello World")))
 
     def on_message(self, incoming):
-        RPI().toggle_led(7)
         print 'Message received %s' % incoming
+        jsonMessage = json.loads(incoming)
 
-        text = json.loads(incoming).get('text', None)
-        msg = text if text else 'Sorry could you repeat?'
+        RPI().toggle_led(7)
 
-        response = json.dumps(dict(output='Parrot: {0}'.format(msg)))
-        self.write_message(response)
+        if (jsonMessage.get('command', None)):
+          RPI().all_on();
+        else:
+          RPI().init();
 
     def on_close(self):
         del WSHandler.WSCLIENTS[self.wsclientid]
