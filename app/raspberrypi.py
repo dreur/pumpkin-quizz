@@ -41,11 +41,11 @@ class RPI:
     if self.on_pi:
       # self.pifacedigitalio.init()
       try:
-      self.pifacedigital.output_ports[6].turn_off()
+        self.pifacedigital.output_ports[6].turn_off()
       except Exception as ex:
         logging.exception("Could not turn output port 7 off ")
       try:
-      self.pifacedigital.output_ports[5].turn_off()
+        self.pifacedigital.output_ports[5].turn_off()
       except Exception as ex:
         logging.exception("Could not turn output port 6 off ")
       try:
