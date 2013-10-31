@@ -224,16 +224,16 @@ var AppView = Backbone.View.extend({
   },
 
   nextQuestion: function(previousQuestion) {
-    this.ws.send(JSON.stringify({"command": ""}));
+    this.ws.send(JSON.stringify({"command": "DO IT"}));
     /*setInterval(function() {
-      this.ws.send(JSON.stringify({"command_nop": ""}));
+      this.ws.send(JSON.stringify({"command_nop": "DONT"}));
     }, 500);
     setInterval(function() {
-      this.ws.send(JSON.stringify({"command": ""}));
+      this.ws.send(JSON.stringify({"command": "DO IT"}));
     }, 1000);
     */
     setInterval(function() {
-      this.ws.send(JSON.stringify({"command_nop": ""}));
+      this.ws.send(JSON.stringify({"command_nop": "DONT"}));
     }, 1500);
     if (previousQuestion) {
       this.quizzAnswer.add(previousQuestion);

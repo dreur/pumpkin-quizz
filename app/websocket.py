@@ -22,6 +22,7 @@ class WSHandler(WebSocketHandler):
         RPI().toggle_led(7)
 
         if (jsonMessage.get('command', None)):
+          print "Received command to turn all on"
           RPI().all_on();
         else:
           RPI().init();

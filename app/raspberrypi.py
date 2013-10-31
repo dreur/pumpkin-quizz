@@ -57,10 +57,12 @@ class RPI:
   def all_on(self):
     if self.on_pi:
       try:
+        print "Port All On"
         self.pifacedigital.output_port.all_on()
       except Exception as ex:
-        logging.exception("Could not turn all relas on!")
+        logging.exception("Could not turn all output port on!")
       try:
+        print "Relays All On"
         self.pifacedigital.relays.all_on()
       except Exception as ex:
-        logging.exception("Could not turn all relas on!")
+        logging.exception("Could not turn all relays on!")
