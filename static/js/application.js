@@ -225,9 +225,16 @@ var AppView = Backbone.View.extend({
 
   nextQuestion: function(previousQuestion) {
     this.ws.send(JSON.stringify({"command": ""}));
-    setInterval(2000, function() {
+    /*setInterval(function() {
       this.ws.send(JSON.stringify({"command_nop": ""}));
-    });
+    }, 500);
+    setInterval(function() {
+      this.ws.send(JSON.stringify({"command": ""}));
+    }, 1000);
+    */
+    setInterval(function() {
+      this.ws.send(JSON.stringify({"command_nop": ""}));
+    }, 1500);
     if (previousQuestion) {
       this.quizzAnswer.add(previousQuestion);
     }
