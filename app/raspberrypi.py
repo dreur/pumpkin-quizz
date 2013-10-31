@@ -39,23 +39,7 @@ class RPI:
 
   def init(self):
     if self.on_pi:
-      # self.pifacedigitalio.init()
-      try:
-        self.pifacedigital.output_ports[6].turn_off()
-      except Exception as ex:
-        logging.exception("Could not turn output port 7 off ")
-      try:
-        self.pifacedigital.output_ports[5].turn_off()
-      except Exception as ex:
-        logging.exception("Could not turn output port 6 off ")
-      try:
-        self.pifacedigital.output_ports[4].turn_off()
-      except Exception as ex:
-        logging.exception("Could not turn output port 5 off ")
-      try:
-        self.pifacedigital.output_ports[3].turn_off()
-      except Exception as ex:
-        logging.exception("Could not turn output port 4 off ")
+      self.pifacedigitalio.init()
 
   def activate(self):
     if self.on_pi:
