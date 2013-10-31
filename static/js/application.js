@@ -81,7 +81,7 @@ var AnswersView = Backbone.View.extend({
   template: _.template($("#answers-template").html()),
 
   initialize: function() {
-    console.dir(this.model);
+    //console.dir(this.model);
   },
 
   render: function() {
@@ -121,11 +121,8 @@ var QuestionView = Backbone.View.extend({
       index = e;
     }
 
-    console.dir($('a.choice'));
-
-
     var theChoiceEl = $('a.choice')[index];
-    console.dir(theChoiceEl);
+    //console.dir(theChoiceEl);
 
     $(theChoiceEl).css('color', 'red');
 
@@ -174,7 +171,7 @@ var AppView = Backbone.View.extend({
         if (_.isFunction(command)) {
           command.apply(appView, [message.args]);
         } else {
-          console.dir(message);
+          //console.dir(message);
         }
       };
 
@@ -182,7 +179,7 @@ var AppView = Backbone.View.extend({
         if (!evt.wasClean && evt.code == 1006) {
           setTimeout(function () { window.location.reload(true); }, 7 * 1000);
         } else {
-          console.dir(evt);
+          //console.dir(evt);
         }
       };
 
@@ -227,7 +224,7 @@ var AppView = Backbone.View.extend({
       }
       theThis.currentView = newView;
       theThis.$el.hide().html(theThis.currentView.render().el).slideDown(800);
-    }, 500);
+    }, 750);
   },
 
   startQuizz: function() {
@@ -247,7 +244,7 @@ var AppView = Backbone.View.extend({
     */
     setTimeout(function() {
       theWs.send(JSON.stringify({"command_nop": "DONT"}));
-    }, 1500);
+    }, 2500);
     if (previousQuestion) {
       this.quizzAnswer.add(previousQuestion);
     }
@@ -285,7 +282,7 @@ var AppView = Backbone.View.extend({
     if (this.currentView && this.currentView.buttonPressed && ! _.isUndefined(args.idx)) {
       this.currentView.buttonPressed(args.idx);
     } else {
-      console.log("Button press not implemented by current view");
+      //console.log("Button press not implemented by current view");
     }
   }
 
