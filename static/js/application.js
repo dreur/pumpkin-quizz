@@ -8,6 +8,7 @@ var SoundController = {
     _.each([
         { name: "background_armel", url:"/static/sounds/background-armel.wav" },
         { name: "evil_laugh", url:"/static/sounds/dark-laugh.wav" },
+        { name: "thriller", url:"/static/sounds/thriller.wav" },
         { name: "scary", url:"/static/sounds/scary.wav" }
       ], function(sound) {
         // preloading
@@ -251,8 +252,9 @@ var AppView = Backbone.View.extend({
       if (! _.isUndefined(this.count)) {
         this.count = this.count - 5;
       } else {
-        this.count = 15;
+        this.count = 13;
         $("#timer").html(thecount);
+        SoundController.play("thriller");
         this.replaceView(new AnswersView({ model: this.quizzAnswer }));
         var thecount = this.count;
         var counter = setInterval(function() {
