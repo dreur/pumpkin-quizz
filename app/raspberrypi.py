@@ -39,7 +39,11 @@ class RPI:
 
   def init(self):
     if self.on_pi:
-      self.pifacedigitalio.init()
+      # self.pifacedigitalio.init()
+      self.pifacedigital.output_ports[7].turn_off()
+      self.pifacedigital.output_ports[6].turn_off()
+      self.pifacedigital.output_ports[5].turn_off()
+      self.pifacedigital.output_ports[4].turn_off()
 
   def activate(self):
     if self.on_pi:
@@ -58,6 +62,7 @@ class RPI:
     if self.on_pi:
       try:
         print "Port All On"
+        # self.pifacedigital.output_port.all_on()
         self.pifacedigital.output_port.all_on()
       except Exception as ex:
         logging.exception("Could not turn all output port on!")
