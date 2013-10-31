@@ -265,6 +265,7 @@ var AppView = Backbone.View.extend({
       } else {
         this.count = 13;
         $("#timer").html(thecount);
+        SoundController.get("background_armel").pause();
         SoundController.play("thriller");
         this.replaceView(new AnswersView({ model: this.quizzAnswer }));
         var thecount = this.count;
