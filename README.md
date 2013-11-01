@@ -4,18 +4,19 @@ For Nakina Systems Pumpkin Carving Contest!
 
 https://www.youtube.com/watch?v=z-0BPkHR6m8
 
-![Overview](dreur.github.com/pumpkin-quizz/images/2013-10-31 11.09.06.jpg)
+<img src="//:dreur.github.com/pumpkin-quizz/images/2013-10-31 11.09.06.jpg" alt="Setup Example" style="width: 200px;"/>
 
 ### State
 
-Ready for Halloween Yet!
+Ready for Halloween!
 
 #### Features
-1. Use Halloween Font
-2. Configure background and music for questions
-3. Amazing!
-4. Present Answers and Score
-5. Highscore!
+1. Uses Raspberry PI + PI Face
+2. Use Halloween Font
+3. Configure background and music for questions
+4. Amazing!
+5. Present Answers and Score
+6. Flashes all outuputs and relays
 
 ### Tech
 
