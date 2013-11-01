@@ -4,7 +4,7 @@ For Nakina Systems Pumpkin Carving Contest!
 
 https://www.youtube.com/watch?v=z-0BPkHR6m8
 
-<img src="//:dreur.github.com/pumpkin-quizz/images/2013-10-31 11.09.06.jpg" alt="Setup Example" style="width: 200px;"/>
+<img src="http://github.bboudreau.ca/pumpkin-quizz/images/2013-10-31 11.09.06.jpg" alt="Setup Example" style="width: 200px;"/>
 
 ### State
 
