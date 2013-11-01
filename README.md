@@ -4,14 +4,16 @@ For Nakina Systems Pumpkin Carving Contest!
 
 https://www.youtube.com/watch?v=z-0BPkHR6m8
 
+![Overview](dreur.github.com/pumpkin-quizz/images/2013-10-31 11.09.06.jpg)
+
 ### State
 
-In Development! - Not ready for Halloween Yet!
+Ready for Halloween Yet!
 
-#### TODO
+#### Features
 1. Use Halloween Font
 2. Configure background and music for questions
-3. Do whole workflow of Quizz
+3. Amazing!
 4. Present Answers and Score
 5. Highscore!
 
@@ -30,24 +32,24 @@ Software: Flask + Tornado + Websocket
 
   in /etc/modprobe.d/raspi-blacklist.conf comment the SPI driver:
   `#blacklist spi-bcm2708`
-  
+
 3. Upgrade your OS
 
   `sudo apt-get update`
-  
+
 ### Software Dependencies
 
 Python dev:
 
     sudo apt-get install python-dev
-    
+
 Distribute and Pip:
 
     curl -O http://python-distribute.org/distribute_setup.py
     sudo python distribute_setup.py
     curl -O https://raw.github.com/pypa/pip/master/contrib/get-pip.py
     sudo python get-pip.py
-    
+
 VirtualEnv and VirtualEnvWrapper:
 
     sudo pip install virtualenvwrapper
@@ -75,7 +77,7 @@ PI Face's Common and IO lib:
     workon pump-quizz
     python server.py
     # Connect to http://localhost:5000/
-    
+
 ### Awesome git post-receive script
 
     #!/bin/sh
