@@ -12,10 +12,10 @@ Ready for Halloween!
 
 #### Features
 1. Uses Raspberry PI + PI Face
-2. Use Halloween Font
-3. Configure background and music for questions
+2. Uses Halloween Font
+3. Configured background and music for questions
 4. Amazing!
-5. Present Answers and Score
+5. Presents Answers and Score
 6. Flashes all outuputs and relays
 
 ### Tech
@@ -36,7 +36,7 @@ Software: Flask + Tornado + Websocket
 
 3. Upgrade your OS
 
-  `sudo apt-get update`
+  `sudo apt-get -y update && sudo apt-get -y full-update`
 
 ### Software Dependencies
 
